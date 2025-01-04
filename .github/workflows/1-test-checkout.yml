@@ -1,0 +1,12 @@
+name: My Github actions workflow
+on: [push]
+jobs:
+  first-job: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Before - List files
+        run: ls -ltra
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: after list files 
+        run: ls -ltra
