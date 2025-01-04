@@ -1,4 +1,4 @@
-name: My Github actions workflow
+name: checkout repo
 on: [push]
 jobs:
   first-job: 
