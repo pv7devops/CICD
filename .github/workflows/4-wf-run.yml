@@ -1,0 +1,10 @@
+name: wf Run
+on:
+  workflow_run:
+    workflows: [Repo level Events]
+    types: [completed]
+jobs:
+  run-after:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Run after Repo level Events"
