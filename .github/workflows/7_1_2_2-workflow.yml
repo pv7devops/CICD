@@ -1,4 +1,4 @@
-name: set context
+name: only github context for PR and issues
 on: [pull_request, issues]
 jobs:
   evaluate-expressions:

@@ -1,4 +1,4 @@
-name: set context
+name: Runname
 on: [push, workflow_dispatch]
 run-name: "WF event ${{ github.event_name}}Triggered by @${{ github.actor }} "
 jobs:
