@@ -1,0 +1,14 @@
+# name: Stale Issues & PRs
+# on:
+#   schedule:
+#     - cron: "0/3 * * * *" 
+
+# jobs:
+#   changeOpenPRsToStale:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/stale@v8
+#         with:
+#           stale-issue-message: "Label PR's to stale if they are open for long time"
+#           days-before-stale: 1
+#           days-before-close: 3
