@@ -1,0 +1,13 @@
+# name: Evaluate Expressions
+# on: [push, pull_request, issues, workflow_dispatch]
+# jobs:
+#   evaluate-expressions:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Dump Contexts
+#         run: |
+#           echo '${{ toJson(github) }}'
+#           echo '${{ toJson(job) }}'
+#           echo '${{ toJson(secrets) }}'
+#           echo '${{ toJson(steps) }}'
+#           echo '${{ toJson(runner) }}'

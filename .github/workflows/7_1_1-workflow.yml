@@ -1,0 +1,17 @@
+name: Evaluate Expressions
+on: [push, pull_request, issues, workflow_dispatch]
+jobs:
+  evaluate-expressions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute expressions
+        id: myid
+        run: |
+          echo ${{ 1 }}
+          echo ${{ 'Devops' }}
+          echo ${{ false }}
+          echo ${{ 1 > 2 }}
+          echo ${{ 'Devops' == 'Devops' }}
+          echo ${{ true && false }}
+          echo ${{ true || (false && true) }}
+          echo ${{ null }}
