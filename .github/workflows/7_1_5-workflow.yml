@@ -1,0 +1,13 @@
+name: Run conditions on issues and PRs
+on: [pull_request, issues, workflow_dispatch]
+jobs:
+  runs-only-during-issues-n-prs:
+    runs-on: ubuntu-latest
+    if: contains(fromJson('["issues","pull_request"]'), github.event_name)
+    steps:
+      - name: github context
+        run: |
+          echo '${{ toJson(github) }}'
+      - name: Run only if issue has a bug label
+        if: contains(github.event.issue.labels.*.name, 'bug')
+        run: echo ${{ join(github.event.issue.labels.*.name, ', ') }}

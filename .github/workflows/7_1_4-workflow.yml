@@ -1,6 +1,5 @@
 name: Run conditions on steps
-on: [push, pull_request, issues, workflow_dispatch]
-run-name: "Expressions & Contexts by @${{ github.actor }}, event: ${{ github.event_name }}"
+on: [push, pull_request]
 jobs:
   run-during-push:
     runs-on: ubuntu-latest
@@ -8,10 +7,3 @@ jobs:
     steps:
       - name: Run only during push
         run: echo "run only during push event"
-  runs-only-during-issues-n-prs:
-    runs-on: ubuntu-latest
-    if: contains(fromJson('["issues","pull_request"]'), github.event_name)
-    steps:
-      - name: Run only if issue has a bug label
-        if: contains(github.event.issue.labels.*.name, 'bug')
-        run: echo ${{ join(github.event.issue.labels.*.name, ', ') }}
