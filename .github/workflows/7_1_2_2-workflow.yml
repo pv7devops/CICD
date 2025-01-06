@@ -1,13 +1,11 @@
 name: set context
-on: [push, workflow_dispatch]
+on: [pull_request, issues]
 jobs:
   evaluate-expressions:
     runs-on: ubuntu-latest
     steps:
       - name: Display Contexts
         run: |
-          echo '${{ toJson(runner) }}'
-          echo '${{ toJson(secrets) }}'
           echo '${{ toJson(github) }}'
-          echo '${{ toJson(job) }}'
+
           

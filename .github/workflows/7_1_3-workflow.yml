@@ -1,5 +1,6 @@
 name: set context
 on: [push, workflow_dispatch]
+run-name: "WF event ${{ github.event_name}}Triggered by @${{ github.actor }} "
 jobs:
   evaluate-expressions:
     runs-on: ubuntu-latest
