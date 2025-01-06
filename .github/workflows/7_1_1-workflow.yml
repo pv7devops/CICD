@@ -7,9 +7,9 @@ jobs:
       - name: Execute expressions
         id: myid
         run: |
-          echo ${{ 1 }}
+          echo ${{ 0 }}
           echo ${{ 'Devops' }}
-          echo ${{ false }}
+          echo ${{ true }}
           echo ${{ 1 > 2 }}
           echo ${{ 'Devops' == 'Devops' }}
           echo ${{ true && false }}
