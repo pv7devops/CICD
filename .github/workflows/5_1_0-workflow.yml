@@ -1,7 +1,7 @@
 name: PRs to Stale
 on:
   schedule:
-    - cron: "0/2 * * * *" 
+    - cron: "0/5 * * * *" 
 
 jobs:
   changeOpenPRsToStale:
