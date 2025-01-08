@@ -1,0 +1,56 @@
+
+name: Workflow Commands Example
+on: [workflow_dispatch]
+
+jobs:
+  demo-workflow-commands:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display an Error Message
+        run: echo "::error::Missing semicolon in JavaScript code"
+        # Displays a general error message in the workflow logs
+
+      - name: Error Message with Parameters
+        run: echo "::error title=Syntax Error,file=app.js,line=10,endLine=10,col=15,endColumn=16::Unexpected token '}'"
+        # Displays a detailed error message with file and line information
+
+      - name: Debug Message with Parameters
+        run: echo "::debug title=Debug Info,file=app.js,line=10,endLine=10,col=15,endColumn=16::Analyzing the issue"
+        # Logs a debug message to provide detailed trace information (only shown if debug logging is enabled)
+
+      - name: Warning Message with Parameters
+        run: echo "::warning title=Deprecated Function,file=utils.js,line=25,col=8::Avoid using 'eval' for security reasons"
+        # Displays a warning message in the workflow logs with relevant context
+
+      - name: Notice Message with Parameters
+        run: echo "::notice title=Code Optimization,file=main.js,line=50,col=10::Consider using 'let' instead of 'var'"
+        # Displays a notice, typically for recommendations or informational messages
+
+      - name: Grouped Logs Example
+        run: |
+          echo "::group::Build Logs"
+          echo "Step 1: Installing dependencies..."
+          sleep 1
+          echo "Step 2: Running tests..."
+          sleep 1
+          echo "Step 3: Creating build artifacts..."
+          echo "::endgroup::"
+        # Groups related log messages to keep the workflow logs tidy and structured
+
+      - name: Masking Sensitive Information
+        run: echo "::add-mask::my-super-secret-token"
+        # Ensures the sensitive value is masked in the logs if output
+
+      - name: Echo Masked Value
+        run: echo "my-super-secret-token"
+        # The string "my-super-secret-token" will appear as "***" in the logs due to masking
+
+      - name: Output Step Status
+        run: |
+          echo "::debug::Running a test..."
+          if [ 1 -eq 1 ]; then
+            echo "::notice::Test passed!"
+          else
+            echo "::error::Test failed!"
+          fi
+        # Conditional logic to demonstrate dynamically generating error or success messages

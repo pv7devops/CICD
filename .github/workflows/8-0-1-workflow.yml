@@ -1,0 +1,52 @@
+name: Timeout and Status Check Workflow
+
+on: [workflow_dispatch]
+
+jobs:
+  timeout-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1 
+    steps:
+      - name: Simulate Long Running Task
+        run: |
+          echo "Starting a task that will exceed the timeout limit..."
+          sleep 75 # Simulates a long-running process that exceeds the timeout
+          echo "This will not be printed due to timeout."
+
+      - name: Post-Timeout Step (Won't Execute)
+        run: echo 'This step will not execute if the job times out.'
+
+  failure-demo:
+    runs-on: ubuntu-latest
+    needs: timeout-demo
+    if: always() # Ensure it runs regardless of the previous job's outcome
+    steps:
+      - name: Simulate Failure 
+        id: failure-step
+        continue-on-error: true 
+        run: |
+          echo "Simulating failure..."
+          exit 1
+
+      - name: Handle Failure in Previous Step
+        if: failure() && steps.failure-step.conclusion == 'failure'
+        run: |
+          echo "Previous step failed. Handling failure gracefully."
+          echo "Performing fallback actions."
+
+      - name: Always Execute Step
+        if: always()
+        run: echo "This step runs regardless of success or failure."
+
+  success-demo:
+    runs-on: ubuntu-latest
+    needs: timeout-demo
+    if: success() # Runs only if the `timeout-demo` job succeeds
+    steps:
+      - name: Simulate Success with Bash Script
+        run: |
+          echo "Simulating success..."
+          exit 0 # Explicit success status
+
+      - name: Print Success Message
+        run: echo "Success! The timeout-demo job completed without issues."
