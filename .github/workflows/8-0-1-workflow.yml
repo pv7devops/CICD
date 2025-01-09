@@ -1,6 +1,6 @@
 name: Timeout and Status Check Workflow
 
-on: [workflow_dispatch]
+on: [push]
 
 jobs:
   timeout-demo:
