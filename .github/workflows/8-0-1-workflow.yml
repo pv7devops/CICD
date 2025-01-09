@@ -10,7 +10,7 @@ jobs:
       - name: Simulate Long Running Task
         run: |
           echo "Starting a task that will exceed the timeout limit..."
-          sleep 75 # Simulates a long-running process that exceeds the timeout
+          sleep 5 # Simulates a long-running process that exceeds the timeout
           echo "This will not be printed due to timeout."
 
       - name: Post-Timeout Step (Won't Execute)
