@@ -1,0 +1,52 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowIAMUserAndRoleCreation",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateUser",
+        "iam:CreateRole",
+        "iam:PutUserPolicy",
+        "iam:PutRolePolicy",
+        "iam:AttachUserPolicy",
+        "iam:AttachRolePolicy"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyAttachingAdminPolicy",
+      "Effect": "Deny",
+      "Action": [
+        "iam:AttachUserPolicy",
+        "iam:AttachRolePolicy"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:policy/AdministratorAccess"
+      ]
+    },
+    {
+      "Sid": "DenyAttachingAnyAllAccessPolicy",
+      "Effect": "Deny",
+      "Action": [
+        "iam:PutUserPolicy",
+        "iam:PutRolePolicy"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringLikeIfExists": {
+          "iam:PolicyDocument": "*\"Action\":\"*\"*"
+        }
+      }
+    },
+    {
+      "Sid": "DenyPassRoleAndAssumeRolePolicyUpdates",
+      "Effect": "Deny",
+      "Action": [
+        "iam:PassRole",
+        "iam:UpdateAssumeRolePolicy"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
