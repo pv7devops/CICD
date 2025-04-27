@@ -1,0 +1,61 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyAttachAdminPolicies",
+      "Effect": "Deny",
+      "Action": [
+        "iam:AttachUserPolicy",
+        "iam:AttachRolePolicy"
+      ],
+      "Resource": [
+        "arn:aws:iam::aws:policy/AdministratorAccess",
+        "arn:aws:iam::aws:policy/PowerUserAccess",
+        "arn:aws:iam::aws:policy/IAMFullAccess"
+      ]
+    },
+    {
+      "Sid": "DenyCreateUserWithoutApprovedBoundary",
+      "Effect": "Deny",
+      "Action": [
+        "iam:CreateUser"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "iam:PermissionsBoundary": "arn:aws:iam::<your-account-id>:policy/<your-approved-permissions-boundary>"
+        }
+      }
+    },
+    {
+      "Sid": "DenyCreateRoleWithoutApprovedBoundary",
+      "Effect": "Deny",
+      "Action": [
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "iam:PermissionsBoundary": "arn:aws:iam::<your-account-id>:policy/<your-approved-permissions-boundary>"
+        }
+      }
+    },
+    {
+      "Sid": "DenyPassRole",
+      "Effect": "Deny",
+      "Action": [
+        "iam:PassRole"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyInlinePolicies",
+      "Effect": "Deny",
+      "Action": [
+        "iam:PutUserPolicy",
+        "iam:PutRolePolicy"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
