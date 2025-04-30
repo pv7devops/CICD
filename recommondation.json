@@ -1,0 +1,52 @@
+This IAM policy from Account A allows writing logs to Account B's S3 bucket and decrypting data using Account B's KMS key. 
+The "confused deputy problem" arises when a trusted entity (Account B’s resource, e.g., an S3 bucket or KMS key) is misused 
+by another entity (Account A’s principal) because the trusted entity can't distinguish whether the request came from the 
+trusted party or a malicious one.
+
+Problem:
+Cross-account access without aws:SourceArn or aws:SourceAccount condition allows potential abuse (confused deputy), 
+especially with KMS and S3 bucket access.
+
+Mitigation Steps:
+1. Update the bucket policy (in Account B) to restrict S3 PutObject to only from Account A:
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowOnlyAccountA",
+      "Effect": "Allow",
+      "Principal": { "AWS": "arn:aws:iam::ACCOUNT_A_ID:root" },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::example-bucket-logs/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:SourceAccount": "ACCOUNT_A_ID"
+        }
+      }
+    }
+  ]
+}
+
+
+2. Restrict KMS key policy (in Account B) similarly:
+{
+  "Sid": "AllowUseOfKeyForAccountA",
+  "Effect": "Allow",
+  "Principal": { "AWS": "arn:aws:iam::ACCOUNT_A_ID:root" },
+  "Action": ["kms:Decrypt"],
+  "Resource": "*",
+  "Condition": {
+    "StringEquals": {
+      "aws:SourceAccount": "ACCOUNT_A_ID"
+    }
+  }
+}
+
+
+Additional Recommendations:
+Avoid wildcard "Resource": "*" for sensitive services like ssm, ssmmessages, ec2messages, etc.
+
+Break down policies with only necessary permissions (principle of least privilege).
+
+Enable logging (e.g., CloudTrail) to monitor cross-account access.
